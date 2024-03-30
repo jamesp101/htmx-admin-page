@@ -30,6 +30,5 @@ func accountInfo(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-
 	templ.Handler(pages.AccountInfo(pages.AccountsSample[accountIdStr - 1])).ServeHTTP(w, r)
 }

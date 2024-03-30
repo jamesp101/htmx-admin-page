@@ -4,14 +4,16 @@ import "main/templates/components"
 
 templ IndexPage () {
 	<!DOCTYPE html>
-	<html lang="en">
+	<html lang="en" data-theme="bumblebee">
 		@components.HeadBase("Home") {
 			<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 		}
 
-		<body>
-			<div class="card w-96 bg-base-100 shadow-xl">
-				@components.LoginForm(components.LoginFormData{})
+		<body class="bg-base-300">
+			<div class="h-lvh flex justify-start items-center">
+				<div class="w-96 h-full bg-base-100 px-5 flex justify-center items-center">
+					@components.LoginForm(components.LoginFormData{})
+				</div>
 			</div>
 		</body>
 	</html>

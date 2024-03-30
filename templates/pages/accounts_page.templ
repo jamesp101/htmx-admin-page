@@ -3,18 +3,39 @@ package pages
 import (
 	"main/templates/components"
 	"strconv"
+	"main/templates/components/icons"
 )
 
 templ AccountsPage () {
 	<!DOCTYPE html>
-	<html lang="en" data-theme="cupcake">
+	<html lang="en" data-theme="bumblebee">
 		@components.HeadBase("Accounts")
 		<body>
 			@components.Shell("Accounts") {
 				<div class="container">
 					<h1 class="text-3xl font-bold">Accounts </h1>
 					<p class="text-xs">Manage Accounts</p>
-					<hr class="py-10"/>
+					<br/>
+					<div class="flex justify-between items-center gap-4">
+						<form class="">
+							<div class="join">
+								<input
+									name="search"
+									type="text"
+									value=""
+									placeholder="Search"
+									class="input input-bordered join-item input-sm md:input-md"
+								/>
+								<button class="btn join-item btn-sm md:btn-md">
+									@icons.Magnifying()
+								</button>
+							</div>
+						</form>
+						<button class="btn btn-primary btn-sm md:btn-md">
+							@icons.NewAccount()
+							New Account
+						</button>
+					</div>
 					@Table()
 				</div>
 			}
@@ -29,6 +50,7 @@ templ Table () {
 			@tableHead()
 			@tableBody(AccountsSample)
 		</table>
+		@generatePagination()
 	</div>
 }
 
@@ -36,7 +58,11 @@ templ tableHead() {
 	<thead>
 		<tr>
 			<th></th>
-			<th>Account Name</th>
+			<th>
+				<button class="btn btn-ghost btn-sm" hx-get="/accounts" hx-vals='{"sort": "name"}'>
+					Account Name
+				</button>
+			</th>
 			<th>Account Type</th>
 			<th>Account Balance</th>
 		</tr>
@@ -58,16 +84,17 @@ var AccountsSample = []Account{
 
 templ tableBody(accounts []Account) {
 	<tbody>
-		for i, account := range accounts {
-			<tr hx-get={ "/accounts/" + account.Id }
+		for _, account := range accounts {
+			<tr
+				hx-get={ "/accounts/" + account.Id }
 				hx-target="#edit-dialog"
 				hx-swap="outerHTML"
 				class="hover"
 			>
-				<td>{ strconv.Itoa(i + 1) }</td>
 				<td>{ account.Name }</td>
 				<td>{ account.Type }</td>
 				<td>{ strconv.FormatFloat(account.Balance, 'f', 2, 32) }</td>
+				<td></td>
 			</tr>
 		}
 	</tbody>
@@ -76,26 +103,35 @@ templ tableBody(accounts []Account) {
 templ AccountInfo (a Account) {
 	<dialog id="edit-dialog" open class="modal sm:modal-middle">
 		<div class="modal-box">
-			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-				_=" on click remove @open from #edit-dialog then put '' into #edit-dialog.innerHTML " >
+			<button
+				class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+				_=" on click remove @open from #edit-dialog then put '' into #edit-dialog.innerHTML "
+			>
 				✕
 			</button>
 			<h3 class="font-bold text-lg">Account Info</h3>
-
 			<div class="form-control">
 				<label class="label">
 					<span class="label-text">Account ID:</span>
 				</label>
-				<p class="">{a.Id}</p>
+				<p class="">{ a.Id }</p>
 			</div>
-
 			<div class="form-control">
-				<label class="label">
-					<span class="label-text">Account Name</span>
-				</label>
-				<input type="text" class="input input-sm input-bordered" value={a.Name} />
+				<span class="label-text">Account Name</span>
+				<input type="text" class="input input-sm input-bordered" value={ a.Name }/>
 			</div>
-
 		</div>
 	</dialog>
+}
+
+templ generatePagination () {
+	<div class="join">
+		<button class="join-item btn-sm btn">«</button>
+		<button class="join-item btn-sm btn">20 </button>
+		<button class="join-item btn-sm btn">21 </button>
+		<button class="join-item btn-sm btn btn-primary">22</button>
+		<button class="join-item btn-sm btn">23 </button>
+		<button class="join-item btn-sm btn">24 </button>
+		<button class="join-item btn-sm btn">»</button>
+	</div>
 }

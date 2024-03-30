@@ -6,9 +6,8 @@ import (
 
 templ DashboardPage (username string) {
 	<!DOCTYPE html>
-	<html lang="en" data-theme="cupcake">
+	<html lang="en" data-theme="bumblebee">
 		@components.HeadBase("Dashboard") {
-			<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 		}
 		<body>
 			@components.Shell("Dashboard") {
@@ -22,11 +21,9 @@ templ DashboardPage (username string) {
 										<h2 class="font-black">125</h2>
 										<p class="text-xs">Lorem Ipsum</p>
 									</div>
-									<span class="text-green-200 font-bold badge badge-success">18% ↑</span>
-								</div>
-								<div id="sampleChart1" class="w-full h-full"></div>
-								<div class="dropdown">
-									<div tabindex="0" role="button" class="btn btn-outline m-1">Last Week ⌄</div>
+									<span class="text-green-200 font-bold badge badge-success">18% ↑</span> </div> <div id="sampleChart1" class="w-full h-full"></div>
+								<div class="dropdown ">
+									<div tabindex="0" role="button" class="btn btn-ghost btn-sm">Last Week ⌄</div>
 									<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
 										<li><a>Item 1</a></li>
 										<li><a>Item 2</a></li>
