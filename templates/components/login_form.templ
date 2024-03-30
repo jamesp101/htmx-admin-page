@@ -1,0 +1,32 @@
+package components
+
+type LoginFormData struct {
+	Username string
+	Password string
+	Error    string
+}
+
+templ LoginForm (data LoginFormData) {
+
+	<form hx-post="/auth/login" class="form-control w-full max-w-xs">
+
+		<label class="form-control w-full max-w-xs">
+			<div class="label">
+				<span class="label-text">Username</span>
+			</div>
+			<input type="text" name="username" value={ data.Username } class="input input-bordered w-full"/>
+		</label>
+
+		<label class="form-control w-full max-w-xs">
+			<div class="label">
+				<span class="label-text">Password</span>
+			</div>
+			<input type="password" name="password" value={ data.Password } class="input input-bordered w-full"/>
+		</label>
+
+		<button class="btn btn-primary"> Login </button>
+		if data.Error != "" {
+			<p class="text-red-400">{ data.Error }</p>
+		}
+	</form>
+}
