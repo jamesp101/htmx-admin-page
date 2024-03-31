@@ -36,7 +36,7 @@ func HeadBase(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><script src=\"https://unpkg.com/hyperscript.org@0.9.12\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><script src=\"https://unpkg.com/htmx.org@1.9.11\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -45,7 +45,7 @@ func HeadBase(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</script><script src=\"https://unpkg.com/htmx.org@1.9.11\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</script><script src=\"https://unpkg.com/hyperscript.org@0.9.12\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -63,25 +63,11 @@ func HeadBase(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</script><link href=\"/static/style.css\" rel=\"stylesheet\"><script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</script><link href=\"/static/style.css\" rel=\"stylesheet\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Var6 := `
-			document.addEventListener("DOMContentLoaded", function() {
-				document.body.addEventListener("htmx:beforeLoaded", ev => {
-				if (ev.detail.xhr.status == 422) {
-						evt.detail.shouldSwap = true;
-						evt.detail.isError = false;
-						}
-					});
-				});
-		`
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var6)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</script>")
+		templ_7745c5c3_Err = htmx422Load().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -98,4 +84,20 @@ func HeadBase(title string) templ.Component {
 		}
 		return templ_7745c5c3_Err
 	})
+}
+
+func htmx422Load() templ.ComponentScript {
+	return templ.ComponentScript{
+		Name: `__templ_htmx422Load_1eba`,
+		Function: `function __templ_htmx422Load_1eba(){document.addEventListener("DOMContentLoaded", () => {
+		document.body.addEventListener("htmx:beforeLoaded", ev => {
+		if (ev.detail.xhr.status == 422) {
+				evt.detail.shouldSwap = true;
+				evt.detail.isError = false;
+				}
+			});
+		});}`,
+		Call:       templ.SafeScript(`__templ_htmx422Load_1eba`),
+		CallInline: templ.SafeScriptInline(`__templ_htmx422Load_1eba`),
+	}
 }

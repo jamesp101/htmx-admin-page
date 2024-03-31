@@ -5,25 +5,23 @@ templ HeadBase (title string) {
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<title>{ title }</title>
-		<script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
 		<script src="https://unpkg.com/htmx.org@1.9.11"></script>
+		<script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
 		<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
 		<link href="/static/style.css" rel="stylesheet"/>
 
-		<script>
-			document.addEventListener("DOMContentLoaded", function() {
-				document.body.addEventListener("htmx:beforeLoaded", ev => {
-				if (ev.detail.xhr.status == 422) {
-						evt.detail.shouldSwap = true;
-						evt.detail.isError = false;
-						}
-					});
-				});
-		</script>
+		@htmx422Load()
 		{ children... }
 	</head>
 }
 
-
-
+script htmx422Load() {
+	document.addEventListener("DOMContentLoaded", () => {
+		document.body.addEventListener("htmx:beforeLoaded", ev => {
+		if (ev.detail.xhr.status == 422) {
+				evt.detail.shouldSwap = true;
+				evt.detail.isError = false;
+				}
+			});
+		});
+}

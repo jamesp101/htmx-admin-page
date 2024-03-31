@@ -39,7 +39,7 @@ templ AccountsPage () {
 					@Table()
 				</div>
 			}
-			<dialog id="edit-dialog"></dialog>
+			<dialog id="edit_dialog" class="modal"></dialog>
 		</body>
 	</html>
 }
@@ -85,11 +85,11 @@ var AccountsSample = []Account{
 templ tableBody(accounts []Account) {
 	<tbody>
 		for _, account := range accounts {
-			<tr
-				hx-get={ "/accounts/" + account.Id }
-				hx-target="#edit-dialog"
-				hx-swap="outerHTML"
-				class="hover"
+			<tr hx-get={ "/accounts/" + account.Id }
+				hx-target="#edit_dialog"
+				hx-swap="innerHtml"
+				class="hover cursor-pointer"
+				onClick="document.getElementById('edit_dialog').showModal()"
 			>
 				<td>{ account.Name }</td>
 				<td>{ account.Type }</td>
@@ -101,27 +101,26 @@ templ tableBody(accounts []Account) {
 }
 
 templ AccountInfo (a Account) {
-	<dialog id="edit-dialog" open class="modal sm:modal-middle">
-		<div class="modal-box">
-			<button
-				class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-				_=" on click remove @open from #edit-dialog then put '' into #edit-dialog.innerHTML "
-			>
-				✕
+	<div class="modal-box">
+		<form method="dialog">
+			<button class="btn btn-sm btn-circle btn-ghost absolute right-5 top-5">
+				@icons.Close()
 			</button>
-			<h3 class="font-bold text-lg">Account Info</h3>
-			<div class="form-control">
-				<label class="label">
-					<span class="label-text">Account ID:</span>
-				</label>
-				<p class="">{ a.Id }</p>
-			</div>
-			<div class="form-control">
-				<span class="label-text">Account Name</span>
-				<input type="text" class="input input-sm input-bordered" value={ a.Name }/>
-			</div>
+		</form>
+		<h3 class="font-bold text-lg">Account Info</h3>
+		<div class="form-control">
+			<label class="label">
+				<span class="label-text">Account ID:</span>
+			</label>
+			<p class="">{ a.Id }</p>
 		</div>
-	</dialog>
+		<div class="form-control">
+			<span class="label-text">Account Name</span>
+			<input type="text" name="name" class="input input-sm input-bordered" value={ a.Name }/>
+		</div>
+
+		<button class="btn btn-ghost">Edit</button>
+	</div>
 }
 
 templ generatePagination () {
